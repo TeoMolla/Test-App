@@ -105,7 +105,7 @@ function clearClientFields() {
 function updateClientsList() {
     const clientsList = document.querySelector('.client-list');
     clientsList.innerHTML = '';
-    
+
     // Show only the first 5 clients
     const clientsToShow = clients.slice(0, 5);
     clientsToShow.forEach(client => {
@@ -119,7 +119,7 @@ function updateClientsList() {
         `;
         clientsList.appendChild(clientCard);
     });
-    
+
     if (clients.length > 5) {
         const showAllButton = document.createElement('button');
         showAllButton.textContent = 'Show All';
@@ -134,7 +134,7 @@ function toggleShowAllClients() {
     showingAllClients = !showingAllClients;
     const clientsList = document.querySelector('.client-list');
     clientsList.innerHTML = '';
-    
+
     if (showingAllClients) {
         clients.forEach(client => {
             const clientCard = document.createElement('div');
@@ -167,7 +167,7 @@ function addAppointment() {
 
     if (date && clientName && serviceName) {
         const service = services.find(s => s.name === serviceName);
-        
+
         // Format the date into a string
         const formattedDate = new Date(date).toLocaleString('en-US', { 
             year: 'numeric', 
@@ -188,7 +188,6 @@ function addAppointment() {
     }
 }
 
-
 // Clear appointment input fields
 function clearAppointmentFields() {
     document.getElementById('appointmentDate').value = '';
@@ -201,34 +200,25 @@ function updateAppointmentsList() {
     const appointmentsList = document.querySelector('.appointment-list');
     appointmentsList.innerHTML = '';
 
-    // Filter out undefined or invalid appointments
-    const validAppointments = appointments.filter(appointment => appointment && appointment.clientName && appointment.date && appointment.serviceName);
-
-    validAppointments.forEach(appointment => {
+    appointments.forEach(appointment => {
         const appointmentCard = document.createElement('div');
         appointmentCard.className = 'appointment-card';
-        
-        // Format the date to a more readable format
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        const formattedDate = appointment.date.toLocaleString('en-US', options);
-        
+
         appointmentCard.innerHTML = `
             <h3>${appointment.clientName}</h3>
             <p>Service: ${appointment.serviceName}</p>
             <p>Price: $${appointment.price}</p>
-            <p>Time: ${formattedDate}</p>
+            <p>Time: ${appointment.date}</p>  <!-- Using the formatted date directly -->
             <button onclick="deleteAppointment('${appointment.clientName}', '${appointment.date}')">Delete</button>
         `;
         appointmentsList.appendChild(appointmentCard);
     });
 }
 
-
-
 // Delete an appointment
 function deleteAppointment(clientName, appointmentDate) {
     appointments = appointments.filter(appointment => 
-        !(appointment.clientName === clientName && appointment.date.toString() === appointmentDate));
+        !(appointment.clientName === clientName && appointment.date === appointmentDate));
     saveData();  // Save to localStorage
     updateAppointmentsList();
 }
@@ -249,7 +239,7 @@ function filterAppointments() {
             <h3>${appointment.clientName}</h3>
             <p>Service: ${appointment.serviceName}</p>
             <p>Price: $${appointment.price}</p>
-            <p>Time: ${appointment.date.toLocaleString()}</p>
+            <p>Time: ${appointment.date}</p>
             <button onclick="deleteAppointment('${appointment.clientName}', '${appointment.date}')">Delete</button>
         `;
         appointmentsList.appendChild(appointmentCard);
