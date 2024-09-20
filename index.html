@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Untitled</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Management App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>Dental Management App</h1>
+        </header>
+        <nav class="nav">
+            <button onclick="showSection('appointments')">Appointments</button>
+            <button onclick="showSection('clients')">Clients</button>
+            <button onclick="showSection('services')">Services</button>
+        </nav>
+        <main class="content">
+            <section id="appointments">
+                <h2>Appointments</h2>
+                <input type="text" id="searchAppointment" placeholder="Search by client name" oninput="filterAppointments()">
+                <div class="appointment-list"></div>
+                <h3>Add New Appointment</h3>
+                <input type="datetime-local" id="appointmentDate">
+                <select id="appointmentClient"></select>
+                <select id="appointmentService"></select>
+                <button onclick="addAppointment()">Add Appointment</button>
+            </section>
+            <section id="clients" style="display: none;">
+                <h2>Clients</h2>
+                <div class="client-list"></div>
+                <button onclick="toggleShowAllClients()">Show All</button>
+                <h3>Add New Client</h3>
+                <input type="text" id="clientName" placeholder="Name">
+                <input type="number" id="clientAge" placeholder="Age">
+                <select id="clientService"></select>
+                <button onclick="addClient()">Add Client</button>
+            </section>
+            <section id="services" style="display: none;">
+                <h2>Services</h2>
+                <div id="servicesList" class="services-list"></div>
+                <h3>Add New Service</h3>
+                <input type="text" id="serviceName" placeholder="Service Name">
+                <input type="number" id="servicePrice" placeholder="Price">
+                <button onclick="addService()">Add Service</button>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
