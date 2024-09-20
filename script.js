@@ -161,14 +161,25 @@ function deleteClient(clientName) {
 
 // Add a new appointment
 function addAppointment() {
-    const date = new Date(document.getElementById('appointmentDate').value);
+    const date = document.getElementById('appointmentDate').value;
     const clientName = document.getElementById('appointmentClient').value;
     const serviceName = document.getElementById('appointmentService').value;
 
     if (date && clientName && serviceName) {
         const service = services.find(s => s.name === serviceName);
-        appointments.push({ date, clientName, serviceName, price: service.price });
-        appointments.sort((a, b) => a.date - b.date);
+        
+        // Format the date into a string
+        const formattedDate = new Date(date).toLocaleString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit'
+        });
+
+        // Save the formatted date instead of the Date object
+        appointments.push({ date: formattedDate, clientName, serviceName, price: service.price });
+        appointments.sort((a, b) => new Date(a.date) - new Date(b.date));
         updateAppointmentsList();
         saveData();  // Save to localStorage
         clearAppointmentFields();
@@ -176,6 +187,7 @@ function addAppointment() {
         alert('Please fill in all appointment details.');
     }
 }
+
 
 // Clear appointment input fields
 function clearAppointmentFields() {
