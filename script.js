@@ -29,21 +29,6 @@ let services = [
     { name: "Filling", price: 200 }
 ];
 
-// Test Firestore write
-async function testFirestore() {
-    try {
-        const docRef = await addDoc(collection(db, "test"), {
-            testField: "testValue"
-        });
-        console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
-
-// Call testFirestore() after Firebase is initialized to test Firestore access
-testFirestore();
-
 // Show selected section
 function showSection(sectionId) {
     document.getElementById('appointments').style.display = 'none';
@@ -115,16 +100,6 @@ function updateServicesList() {
     });
 }
 
-// Fetch clients from Firestore
-async function fetchClients() {
-    const querySnapshot = await getDocs(collection(db, "clients"));
-    clients = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }));
-    updateClientsList();
-}
-
 // Add a new client to Firestore
 async function addClient() {
     const name = document.getElementById('clientName').value;
@@ -149,6 +124,16 @@ function clearClientFields() {
     document.getElementById('clientName').value = '';
     document.getElementById('clientAge').value = '';
     document.getElementById('clientService').value = '';
+}
+
+// Fetch clients from Firestore
+async function fetchClients() {
+    const querySnapshot = await getDocs(collection(db, "clients"));
+    clients = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+    updateClientsList();
 }
 
 // Update the displayed list of clients
@@ -232,6 +217,19 @@ function clearAppointmentFields() {
     document.getElementById('appointmentDate').value = '';
     document.getElementById('appointmentClient').value = '';
     document.getElementById('appointmentService').value = '';
+}
+
+// Delete an appointment from Firestore (if you want to add delete functionality for appointments)
+async function deleteAppointment(clientName, appointmentDate) {
+    const appointmentRef = collection(db, "appointments");
+    const querySnapshot = await getDocs(appointmentRef);
+    querySnapshot.forEach((doc) => {
+        const appointment = doc.data();
+        if (appointment.clientName === clientName && new Date(appointment.date).toLocaleString() === appointmentDate) {
+            deleteDoc(doc.ref);  // Delete this specific document
+        }
+    });
+    fetchAppointments(); // Refresh appointments list after deletion
 }
 
 // Initialize the app by fetching clients and appointments
