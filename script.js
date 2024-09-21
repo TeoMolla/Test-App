@@ -7,6 +7,27 @@ let services = JSON.parse(localStorage.getItem('services')) || [
 let clients = JSON.parse(localStorage.getItem('clients')) || [];
 let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAEUz4iKEBHoDY9gsuDzRAkgVwCGlfE9JE",
+  authDomain: "dentalapp-ca6d1.firebaseapp.com",
+  projectId: "dentalapp-ca6d1",
+  storageBucket: "dentalapp-ca6d1.appspot.com",
+  messagingSenderId: "368760992270",
+  appId: "1:368760992270:web:6dfccce74dc6c6a841c25f",
+  measurementId: "G-KS49SMW8Y1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 // Show selected section
 function showSection(sectionId) {
     document.getElementById('appointments').style.display = 'none';
