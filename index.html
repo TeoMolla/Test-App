@@ -14,17 +14,48 @@
     </nav>
 
     <div id="appointments" class="content-section">
-        <!-- Appointments section content -->
+        <h2>Appointments</h2>
+        <input type="datetime-local" id="appointmentDate" placeholder="Appointment Date and Time">
+        <select id="appointmentClient">
+            <!-- Options populated dynamically -->
+        </select>
+        <select id="appointmentService">
+            <!-- Options populated dynamically -->
+        </select>
+        <button onclick="addAppointment()">Add Appointment</button>
+
+        <div class="appointment-list">
+            <!-- Appointments list populated dynamically -->
+        </div>
     </div>
 
-    <div id="clients" class="content-section" style="display: none;">
-        <!-- Clients section content -->
+    <div id="clients" class="content-section">
+        <h2>Clients</h2>
+        <input type="text" id="clientName" placeholder="Client Name">
+        <input type="number" id="clientAge" placeholder="Client Age">
+        <select id="clientService">
+            <!-- Options populated dynamically -->
+        </select>
+        <button onclick="addClient()">Add Client</button>
+
+        <div class="client-list">
+            <!-- Clients list populated dynamically -->
+        </div>
     </div>
 
-    <div id="services" class="content-section" style="display: none;">
-        <!-- Services section content -->
+    <div id="services" class="content-section">
+        <h2>Services</h2>
+        <input type="text" id="serviceName" placeholder="Service Name">
+        <input type="number" id="servicePrice" placeholder="Service Price">
+        <button onclick="addService()">Add Service</button>
+
+        <div id="servicesList" class="services-list">
+            <!-- Services list populated dynamically -->
+        </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
