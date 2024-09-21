@@ -29,6 +29,21 @@ let services = [
     { name: "Filling", price: 200 }
 ];
 
+// Test Firestore write
+async function testFirestore() {
+    try {
+        const docRef = await addDoc(collection(db, "test"), {
+            testField: "testValue"
+        });
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
+
+// Call testFirestore() after Firebase is initialized to test Firestore access
+testFirestore();
+
 // Show selected section
 function showSection(sectionId) {
     document.getElementById('appointments').style.display = 'none';
