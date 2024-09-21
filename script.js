@@ -7,23 +7,7 @@ let services = JSON.parse(localStorage.getItem('services')) || [
 let clients = JSON.parse(localStorage.getItem('clients')) || [];
 let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAEUz4iKEBHoDY9gsuDzRAkgVwCGlfE9JE",
-  authDomain: "dentalapp-ca6d1.firebaseapp.com",
-  projectId: "dentalapp-ca6d1",
-  storageBucket: "dentalapp-ca6d1.appspot.com",
-  messagingSenderId: "368760992270",
-  appId: "1:368760992270:web:6dfccce74dc6c6a841c25f",
-  measurementId: "G-KS49SMW8Y1"
-};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -301,7 +285,23 @@ function saveData() {
     localStorage.setItem('appointments', JSON.stringify(appointments));
     localStorage.setItem('services', JSON.stringify(services));
 }
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAEUz4iKEBHoDY9gsuDzRAkgVwCGlfE9JE",
+  authDomain: "dentalapp-ca6d1.firebaseapp.com",
+  projectId: "dentalapp-ca6d1",
+  storageBucket: "dentalapp-ca6d1.appspot.com",
+  messagingSenderId: "368760992270",
+  appId: "1:368760992270:web:6dfccce74dc6c6a841c25f",
+  measurementId: "G-KS49SMW8Y1"
+};
 // Initialize the app
 function loadData() {
     const storedClients = localStorage.getItem('clients');
@@ -312,6 +312,75 @@ function loadData() {
     if (storedAppointments) appointments = JSON.parse(storedAppointments);
     if (storedServices) services = JSON.parse(storedServices);
 }
+async function fetchClients() {
+    const querySnapshot = await db.collection('clients').get();
+    clients = querySnapshot.docs.map(doc => ({
+        id: doc.id, 
+        ...doc.data() 
+    }));
+    updateClientsList();
+}
+
+async function addClient() {
+    const name = document.getElementById('clientName').value;
+    const age = document.getElementById('clientAge').value;
+    const service = document.getElementById('clientService').value;
+
+    if (name && age && service) {
+        await db.collection('clients').add({
+            name: name,
+            age: Number(age),
+            service: service
+        });
+        fetchClients(); // Refresh the list after adding the client
+    } else {
+        alert('Please fill in all client details.');
+    }
+}
+
+function updateClientsList() {
+    const clientsList = document.querySelector('.client-list');
+    clientsList.innerHTML = '';
+
+    clients.forEach(client => {
+        const clientCard = document.createElement('div');
+        clientCard.className = 'client-card';
+        clientCard.innerHTML = `
+            <h3>${client.name}</h3>
+            <p>Age: ${client.age}</p>
+            <p>Preferred Service: ${client.service}</p>
+            <button onclick="deleteClient('${client.id}')">Delete</button>
+        `;
+        clientsList.appendChild(clientCard);
+    });
+}
+
+async function deleteClient(clientId) {
+    await db.collection('clients').doc(clientId).delete();
+    fetchClients(); // Refresh the list after deleting the client
+}
+async function addAppointment() {
+    const date = document.getElementById('appointmentDate').value;
+    const clientName = document.getElementById('appointmentClient').value;
+    const serviceName = document.getElementById('appointmentService').value;
+
+    if (date && clientName && serviceName) {
+        await db.collection('appointments').add({
+            date: new Date(date),
+            clientName: clientName,
+            serviceName: serviceName
+        });
+        fetchAppointments(); // Refresh appointments list after adding
+    } else {
+        alert('Please fill in all appointment details.');
+    }
+}
+async function fetchAppointments() {
+    const querySnapshot = await db.collection('appointments').get();
+    appointments = querySnapshot.docs.map(doc => doc.data());
+    updateAppointmentsList();
+}
+
 
 // Load initial data
 loadData();
