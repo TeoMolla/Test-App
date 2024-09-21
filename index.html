@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>DentalApp</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,55 +17,51 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav>
-        <button onclick="showSection('appointments')">Appointments</button>
-        <button onclick="showSection('clients')">Clients</button>
-        <button onclick="showSection('services')">Services</button>
-    </nav>
-
-    <div id="appointments" class="content-section">
-        <h2>Appointments</h2>
-        <input type="datetime-local" id="appointmentDate" placeholder="Appointment Date and Time">
-        <select id="appointmentClient">
-            <!-- Options populated dynamically -->
-        </select>
-        <select id="appointmentService">
-            <!-- Options populated dynamically -->
-        </select>
-        <button onclick="addAppointment()">Add Appointment</button>
-
-        <div class="appointment-list">
-            <!-- Appointments list populated dynamically -->
-        </div>
+    <div class="app">
+        <header class="header">
+            <h1>Dental Management App</h1>
+        </header>
+        <nav class="nav">
+            <button onclick="showSection('appointments')">Appointments</button>
+            <button onclick="showSection('clients')">Clients</button>
+            <button onclick="showSection('services')">Services</button>
+        </nav>
+        <main class="content">
+            <section id="appointments">
+                <h2>Appointments</h2>
+                <input type="text" id="searchAppointment" placeholder="Search by client name" oninput="filterAppointments()">
+                <div class="appointment-list"></div>
+                <h3>Add New Appointment</h3>
+                <input type="datetime-local" id="appointmentDate">
+                <select id="appointmentClient"></select>
+                <select id="appointmentService"></select>
+                <button onclick="addAppointment()">Add Appointment</button>
+            </section>
+            <section id="clients" style="display: none;">
+                <h2>Clients</h2>
+                <div class="client-list"></div>
+                <button onclick="toggleShowAllClients()">Show All</button>
+                <h3>Add New Client</h3>
+                <input type="text" id="clientName" placeholder="Name">
+                <input type="number" id="clientAge" placeholder="Age">
+                <select id="clientService"></select>
+                <button onclick="addClient()">Add Client</button>
+            </section>
+            <section id="services" style="display: none;">
+                <h2>Services</h2>
+                <div id="servicesList" class="services-list"></div>
+                <h3>Add New Service</h3>
+                <input type="text" id="serviceName" placeholder="Service Name">
+                <input type="number" id="servicePrice" placeholder="Price">
+                <button onclick="addService()">Add Service</button>
+            </section>
+        </main>
     </div>
-
-    <div id="clients" class="content-section">
-        <h2>Clients</h2>
-        <input type="text" id="clientName" placeholder="Client Name">
-        <input type="number" id="clientAge" placeholder="Client Age">
-        <select id="clientService">
-            <!-- Options populated dynamically -->
-        </select>
-        <button onclick="addClient()">Add Client</button>
-
-        <div class="client-list">
-            <!-- Clients list populated dynamically -->
-        </div>
-    </div>
-
-    <div id="services" class="content-section">
-        <h2>Services</h2>
-        <input type="text" id="serviceName" placeholder="Service Name">
-        <input type="number" id="servicePrice" placeholder="Service Price">
-        <button onclick="addService()">Add Service</button>
-
-        <div id="servicesList" class="services-list">
-            <!-- Services list populated dynamically -->
-        </div>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
     <script src="script.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
 </body>
 </html>
